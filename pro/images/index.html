@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Commerce Clothing website</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+    }
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 100px 20px 50px; /* top padding ~ header height + bottom padding for footer */
+}
+
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  flex-wrap: wrap;
+  
+  position: fixed; /* Changed from sticky */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f4f4f4;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+    .logo img {
+      width: 120px;
+    }
+
+    nav {
+      flex: 1;
+      text-align: right;
+    }
+
+    nav ul {
+      list-style-type: none;
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .menu-icon {
+      width: 30px;
+      margin-left: 20px;
+      display: none;
+      cursor: pointer;
+    }
+
+    .cart-icon {
+      width: 30px;
+      vertical-align: middle;
+    }
+
+    .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+
+    .col-2 {
+      flex: 1 1 50%;
+      padding: 20px;
+    }
+
+    .col-2 img {
+      width: 100%;
+      max-width: 100%;
+    }
+
+.hero-text h1 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.hero-text .line1 {
+  color: #000;
+  letter-spacing: 2px;
+}
+
+.hero-text .line2 {
+  font-size: 60px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff523b, #ff8a65);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  animation: fadeInUp 1s ease-in-out forwards;
+  opacity: 0;
+  z-index: 1;
+  position: relative;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+.btn1{
+    display: inline-block;
+    background: #ff523b;
+    color: #fff;
+    padding: 8px 30px;
+    margin: 30px;
+    border-radius: 30px;
+    transition: background 0.5s;
+}
+
+.btn1:hover{
+    background: #563434;
+}
+
+.footer {
+    background: #222;
+    color: #fff;
+    padding: 40px 20px;
+    margin-top: 50px;
+  }
+
+  .footer h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+
+  .footer p, .footer ul, .footer a {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.6;
+  }
+
+  .footer ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer ul li {
+    margin-bottom: 10px;
+  }
+
+  .footer ul li a {
+    text-decoration: none;
+    color: #ccc;
+    transition: color 0.3s;
+  }
+
+  .footer ul li a:hover {
+    color: #ff523b;
+  }
+
+  .social-icons a {
+    display: inline-block;
+    margin-right: 15px;
+    color: #ccc;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .social-icons a:hover {
+    color: #ff523b;
+  }
+
+  .footer .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer .row > div {
+    flex: 1 1 200px;
+  }
+
+  .copyright {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #ccc;
+  }
+  #profile-icon i {
+  transition: color 0.3s;
+}
+
+#profile-icon:hover i {
+  color: #ff523b;
+}
+
+
+    /* Responsive Styles */
+   @media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 90px;
+    right: 0;
+    width: 200px;
+    display: none;
+    text-align: right;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  nav ul.active {
+    display: flex;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  .col-2 {
+    flex: 1 1 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-2 img {
+    width: 100vw;
+    height: auto;
+    border-radius: 0;
+    display: block;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    background-color: #f4f4f4; /* Add background to avoid transparency */
+      border: 2px solid #000
+  }
+
+  .container {
+    padding-top: 180px; /* Push content below fixed navbar */
+    padding-bottom: 50px; /* Ensure footer visibility */
+  }
+
+   .hero-text {
+    margin-top: 20px; /* push hero text a bit lower */
+  }
+  .hero-text h1 {
+    font-size: 32px;
+    line-height: 1.1;
+  }
+
+  .hero-text .line1 {
+    font-size: 28px;
+    letter-spacing: 1.5px;
+  }
+
+  .hero-text .line2 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .btn1 {
+    padding: 10px 20px;
+    margin: 20px 0;
+    font-size: 16px;
+  }
+
+  .row {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+ /* Footer styles */
+.footer .row {
+  flex-direction: column;
+  gap: 30px;
+}
+
+.footer .row > div {
+  flex: 1 1 100%;
+  text-align: center;
+  padding: 0 10px;
+  border-bottom: 1px solid #ccc; /* Line separator */
+}
+
+.footer .row > div:last-child {
+  border-bottom: none; /* Remove line from last item */
+}
+
+.social-icons a {
+  display: inline-block;
+  margin: 10px 15px;
+  font-size: 20px;
+}
+
+.footer h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.footer p,
+.footer ul,
+.footer a {
+  font-size: 16px;
+}
+
+  .copyright {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 30px;
+  }
+}
+
+
+.logout-btn {
+  display: inline-block;
+  background-color: #e60000;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #b30000;
+}
+/* Navbar child alignment */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-icon, #profile-icon {
+  margin-left: 10px;
+}
+
+/* On small screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: nowrap;
+  }
+
+  .menu-icon, #profile-icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #profile-icon {
+    margin-left: 10px;
+  }
+}
+
+
+
+
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="container">
+<!-- Inside .navbar -->
+<div class="navbar">
+  <div class="logo">
+    <a href="index.html"><img src="img1.png" alt="Logo" /></a>
+  </div>
+
+  <nav>
+    <ul id="menuItems">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#" id="productNavLink">Products</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a id="login-link" href="Account.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- 🍔 Hamburger menu -->
+  <img src="menu.png" class="menu-icon" onclick="menutoggle()" alt="Menu Icon" />
+
+  <!-- 👤 Profile icon RIGHT NEXT TO hamburger -->
+  <a href="dashboard.html" id="profile-icon" style="display: none;">
+    <i class="fas fa-user-circle fa-2x" style="color: #333;"></i>
+  </a>
+</div>
+
+      <div class="row">
+        <div class="col-2 hero-text">
+           <h1>
+    <span class="line1">SLIP IN</span><br>
+    <span class="line2">STAND OUT...</span>
+     </h1>
+         <a href="#" id="shopNowBtn" class="btn1">Shop Now &#8594;</a>
+        </div>
+        <div class="col-2">
+          <img src="back.jpg" alt="Banner" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Footer -->
+<div class="footer">
+  <div class="container">
+    <div class="row">
+      <!-- About Us Section -->
+      <div class="footer-col-1">
+        <h3>About Us</h3>
+        <p>We are a premium clothing brand dedicated to providing high-quality, stylish apparel for all occasions. Our mission is to help you stand out with confidence.</p>
+      </div>
+<!-- Contact Information Section -->
+      <div class="footer-col-3">
+        <h3>Contact Us</h3>
+        <p>Email: Lasisioluwashina19@gmail.com</p>
+        <p>>📞 Call us: 08128687153</p>
+        <p>Address: Igbogbo Bayeku Rd</p>
+      </div>
+  <!-- Social Media Section -->
+      <div class="footer-col-4">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+  <a href="https://www.instagram.com/shiluxe_19" target="_blank" rel="noopener">
+    <i class="fab fa-instagram"></i> Instagram@shiluxe_19
+  </a>
+  <a href="https://www.tiktok.com/@shiluxe19" target="_blank" rel="noopener">
+    <i class="fab fa-tiktok"></i> TikTok@Shiluxe19
+  </a>
+      </div>
+      </div>
+    </div>
+    <hr>
+    <p class="copyright">© 2025 Shiluxe. All Rights Reserved.</p>
+  </div>
+</div>
+
+  <!-- Toggle Menu Script -->
+  <script>
+    function menutoggle() {
+      const menuItems = document.getElementById("menuItems");
+      menuItems.classList.toggle("active");
+    }
+  </script>
+
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<!-- Firebase Logout and Auth Check Script -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2cxa8oLeJ86rpfBB8IzWZ3WukMWI8EfM",
+    authDomain: "myloginapp-ee4bc.firebaseapp.com",
+    projectId: "myloginapp-ee4bc",
+    storageBucket: "myloginapp-ee4bc.appspot.com",
+    messagingSenderId: "934047841204",
+    appId: "1:934047841204:web:3679a51abbb6d79cf250e1"
+  };
+
+  // Initialize Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app();
+  }
+
+  const auth = firebase.auth();
+
+ auth.onAuthStateChanged((user) => {
+  const menu = document.getElementById("menuItems");
+  const loginLink = document.getElementById("login-link");
+  const profileIcon = document.getElementById("profile-icon");
+  const existingLogout = document.querySelector(".logout-btn");
+
+  if (user && user.emailVerified) {
+    loginLink.style.display = "none"; // Hide "Login"/"My Account"
+    profileIcon.style.display = "inline-block"; // Show profile icon
+
+    if (!existingLogout) {
+      const logoutItem = document.createElement("li");
+      const logoutLink = document.createElement("a");
+      logoutLink.href = "#";
+      logoutLink.textContent = "Logout";
+      logoutLink.classList.add("logout-btn");
+
+      logoutLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        auth.signOut().then(() => {
+          window.location.href = "Account.html";
+        });
+      });
+
+      logoutItem.appendChild(logoutLink);
+      menu.appendChild(logoutItem);
+    }
+  } else {
+    loginLink.textContent = "Login";
+    loginLink.href = "Account.html";
+    loginLink.style.display = "inline-block";
+    profileIcon.style.display = "none"; // Hide profile icon
+
+    if (existingLogout) {
+      existingLogout.parentElement.remove();
+    }
+  }
+});
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const shopNowBtn = document.getElementById("shopNowBtn");
+    const productNavLink = document.getElementById("productNavLink");
+
+    function handleRedirect(e) {
+      e.preventDefault();
+
+      // Make sure Firebase finishes checking the user first
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user && user.emailVerified) {
+          // ✅ Logged in and verified
+          window.location.href = "product.html";
+        } else {
+          // ❌ Not logged in
+          alert("⚠️ Please login first to view the products.");
+          window.location.href = "Account.html";
+        }
+      });
+    }
+
+    if (shopNowBtn) shopNowBtn.addEventListener("click", handleRedirect);
+    if (productNavLink) productNavLink.addEventListener("click", handleRedirect);
+  });
+</script>
+
+</body>
+</html>

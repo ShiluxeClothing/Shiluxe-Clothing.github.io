@@ -1,0 +1,473 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login & Signup with OTP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+   <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fff; /* keep white background */
+  color: #333;
+  overflow-x: hidden;
+  padding-bottom: 50px;
+}
+
+.checkbox:checked,
+.checkbox:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+.checkbox:checked + label,
+.checkbox:not(:checked) + label {
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  width: 60px;
+  height: 16px;
+  border-radius: 8px;
+  background-color: #ff7f00; /* orange instead of yellow */
+  margin: 10px auto;
+  position: relative;
+}
+
+.checkbox:checked + label::before,
+.checkbox:not(:checked) + label::before {
+  content: '\eb4f';
+  font-family: 'unicons';
+  font-size: 24px;
+  color: #ff7f00; /* orange icon */
+  background: #000; /* black background */
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.checkbox:checked + label::before {
+  transform: translateX(44px) rotate(-270deg);
+}
+
+.card-3d-wrap {
+  width: 90%;
+  max-width: 440px;
+  min-height: 460px;
+  margin: 30px auto;
+  perspective: 800px;
+}
+
+.card-3d-wrapper {
+  width: 100%;
+  min-height: 460px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 600ms ease;
+}
+
+.checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  min-height: 460px;
+  position: absolute;
+  background: #fff url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg') no-repeat center bottom;
+  background-size: 300%;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  padding: 35px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(255, 127, 0, 0.3); /* subtle orange glow */
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-style {
+  width: 100%;
+  padding: 13px 20px 13px 55px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* darker shadow */
+}
+
+.input-icon {
+  position: absolute;
+  top: 0;
+  left: 18px;
+  height: 48px;
+  font-size: 24px;
+  line-height: 48px;
+  color: #ff7f00; /* orange icons */
+}
+
+.password-toggle i {
+  font-size: 18px;
+  color: #555;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+.password-toggle:hover i {
+  color: #ff7f00; /* orange on hover */
+}
+
+.btn {
+  background-color: #000; /* black button */
+  color: #ff7f00; /* orange text */
+  padding: 10px 25px;
+  border: none;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff7f00; /* orange button on hover */
+  color: #000; /* black text on hover */
+}
+
+.custom-alert {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+.alert-content {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 6px 30px rgba(255, 127, 0, 0.4); /* orange shadow */
+}
+
+.alert-content button {
+  margin-top: 15px;
+  background: #000;
+  color: #ff7f00;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+ .logo-img {
+      max-width: 200px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+
+.text-center h6 span {
+  padding: 0 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* OTP section */
+#otp-section {
+  margin-top: 20px;
+}
+#recaptcha-container {
+  margin-bottom: 15px;
+}
+
+/* Country code select styling */
+.country-code-select {
+  width: 140px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+  max-height: 150px;
+  overflow-y: auto;
+  appearance: none;
+}
+
+@media (max-width: 480px) {
+  .card-3d-wrap {
+    min-height: 520px;
+  }
+  .card-front, .card-back {
+    padding: 20px;
+  }
+  .form-style {
+    padding-left: 45px;
+  }
+  .input-icon {
+    left: 12px;
+  }
+  .country-code-select {
+    width: 100px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Logo -->
+  <img src="img.jpg" alt="Logo" class="logo-img" />
+
+  <!-- Header Tabs -->
+  <div class="text-center">
+    <h6 class="mb-0 pb-3"><span>Log In</span><span>Sign Up</span></h6>
+    <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+    <label for="reg-log"></label>
+
+    <!-- Card -->
+    <div class="card-3d-wrap">
+      <div class="card-3d-wrapper">
+
+<!-- Login Card -->
+<div class="card-front">
+  <h4 class="mb-4">Login</h4>
+
+  <div class="form-group" style="position: relative;">
+    <input type="email" id="login-email" class="form-style" placeholder="Email Address" />
+    <i class="input-icon uil uil-envelope"></i>
+  </div>
+
+  <div class="form-group" style="position: relative;">
+    <input type="password" id="login-password" class="form-style" placeholder="Password" />
+    <i class="input-icon uil uil-lock-alt"></i>
+
+    <!-- Eye icon for toggle -->
+    <span class="password-toggle" id="toggle-login-password" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer;">
+      <i class="uil uil-eye"></i>
+    </span>
+  </div>
+  <div class="text-right mb-3">
+  <a href="#" id="forgot-password-link" style="color:#ff7f00; font-size: 14px;">Forgot Password?</a>
+</div>
+<div id="loading-message" style="display:none; color: #ff7f00; margin-bottom: 10px;">Checking verification status...</div>
+  <!-- Message box for showing alerts -->
+<div id="message-box" style="color: #000; margin-bottom: 10px;"></div>
+
+  <button class="btn" id="login-btn">Login</button>
+</div>
+
+<!-- Signup Card -->
+<div class="card-back">
+  <h4 class="mb-4">Sign Up</h4>
+
+  <div class="form-group" style="position: relative;">
+    <input type="text" id="signup-name" class="form-style" placeholder="Your Full Name" />
+    <i class="input-icon uil uil-user"></i>
+  </div>
+
+  <div class="form-group" style="position: relative;">
+    <input type="email" id="signup-email" class="form-style" placeholder="Email Address" />
+    <i class="input-icon uil uil-envelope"></i>
+  </div>
+
+  <div class="form-group" style="position: relative;">
+    <input type="password" id="signup-password" class="form-style" placeholder="Password" />
+    <i class="input-icon uil uil-lock-alt"></i>
+
+    <!-- Eye icon for toggle -->
+    <span class="password-toggle" id="toggle-signup-password" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer;">
+      <i class="uil uil-eye"></i>
+    </span>
+  </div>
+
+  <button class="btn" id="signup-btn">Sign Up</button>
+</div>
+
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2cxa8oLeJ86rpfBB8IzWZ3WukMWI8EfM",
+    authDomain: "myloginapp-ee4bc.firebaseapp.com",
+    projectId: "myloginapp-ee4bc",
+    storageBucket: "myloginapp-ee4bc.firebasestorage.app",
+    messagingSenderId: "934047841204",
+    appId: "1:934047841204:web:3679a51abbb6d79cf250e1"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function showMessage(msg, color = 'green') {
+    const box = document.getElementById('message-box');
+    box.textContent = msg;
+    box.style.color = color;
+  }
+
+  function clearMessage() {
+    const box = document.getElementById('message-box');
+    box.textContent = '';
+  }
+
+  // SIGNUP
+  document.getElementById('signup-btn').addEventListener('click', () => {
+    clearMessage();
+
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const password = document.getElementById('signup-password').value;
+
+    if (!name) return showMessage("Please enter your full name.", 'red');
+    if (!email) return showMessage("Please enter your email.", 'red');
+    if (!password) return showMessage("Please enter your password.", 'red');
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(userCredential => {
+        const user = userCredential.user;
+        return user.updateProfile({ displayName: name }).then(() => user);
+      })
+      .then(user => user.sendEmailVerification())
+      .then(() => {
+        showMessage("Signup successful! Verification email sent. Please check your inbox.");
+        // Switch to login form if using toggle checkbox
+        document.getElementById('reg-log').checked = false;
+      })
+      .catch(err => showMessage(err.message, 'red'));
+  });
+
+  // LOGIN
+  document.getElementById('login-btn').addEventListener('click', () => {
+    clearMessage();
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    if (!email) return showMessage("Please enter your email.", 'red');
+    if (!password) return showMessage("Please enter your password.", 'red');
+
+auth.signInWithEmailAndPassword(email, password)
+  .then(userCredential => {
+    const user = userCredential.user;
+    return user.reload().then(() => {
+      if (user.emailVerified) {
+        showMessage("Login successful! Redirecting...", 'green');
+
+        // ✅ Fix: Set session storage before redirecting
+        sessionStorage.setItem('loggedInThisSession', 'true');
+
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user && user.emailVerified) {
+            window.location.href = 'index.html';
+          }
+        });
+
+      } else {
+        showMessage("Please verify your email before logging in. Check your inbox.", 'red');
+        auth.signOut();
+      }
+    });
+  })
+
+      .catch(err => {
+        if (
+          err.code === 'auth/wrong-password' ||
+          err.code === 'auth/invalid-email' ||
+          err.code === 'auth/user-not-found' ||
+          err.code === 'auth/invalid-login-credentials'
+        ) {
+          if (confirm("Invalid email or password. Don't have an account? Would you like to sign up?")) {
+            document.getElementById('reg-log').checked = true;  // switch to signup form if you use toggle
+            document.getElementById('signup-email').value = email;  // prefill signup email
+          }
+        } else {
+          showMessage(err.message, 'red');
+        }
+      });
+  });
+
+  // AUTO-DETECT EMAIL VERIFICATION AND REDIRECT TO LOGIN
+auth.onAuthStateChanged(user => {
+  if (user && !user.emailVerified) return;
+
+  if (user && user.emailVerified) {
+    showMessage("Email verified! Please log in.", "green");
+
+    setTimeout(() => {
+      auth.signOut().then(() => {
+        document.getElementById('reg-log').checked = false; // Flip to login view
+      });
+    }, 2000); // Wait 2 seconds to show message before switching
+  }
+});
+
+
+  // Toggle password visibility helper function
+function togglePassword(inputId, toggleIconId) {
+  const input = document.getElementById(inputId);
+  const toggleIcon = document.querySelector(`#${toggleIconId} i`);
+
+  if (input.type === 'password') {
+    input.type = 'text';
+    toggleIcon.classList.remove('uil-eye');
+    toggleIcon.classList.add('uil-eye-slash');
+  } else {
+    input.type = 'password';
+    toggleIcon.classList.remove('uil-eye-slash');
+    toggleIcon.classList.add('uil-eye');
+  }
+}
+
+document.getElementById('toggle-login-password').addEventListener('click', () => {
+  togglePassword('login-password', 'toggle-login-password');
+});
+
+document.getElementById('toggle-signup-password').addEventListener('click', () => {
+  togglePassword('signup-password', 'toggle-signup-password');
+});
+
+// FORGOT PASSWORD
+document.getElementById('forgot-password-link').addEventListener('click', () => {
+  const email = prompt("Please enter your email to reset your password:");
+  if (!email) return;
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      showMessage("Password reset email sent. Please check your inbox.", 'green');
+    })
+    .catch(err => {
+      showMessage(err.message, 'red');
+    });
+});
+
+
+</script>
+
+</body>
+</html>
