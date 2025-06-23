@@ -353,12 +353,11 @@ body {
         const user = userCredential.user;
         return user.updateProfile({ displayName: name }).then(() => user);
       })
-      .then(user => user.sendEmailVerification())
-      .then(() => {
-        showMessage("Signup successful! Verification email sent. Please check your inbox.");
-        // Switch to login form if using toggle checkbox
-        document.getElementById('reg-log').checked = false;
-      })
+.then(() => {
+  showMessage("Signup successful! You can now log in.");
+  document.getElementById('reg-log').checked = false;
+})
+
       .catch(err => showMessage(err.message, 'red'));
   });
 
@@ -375,24 +374,12 @@ body {
 auth.signInWithEmailAndPassword(email, password)
   .then(userCredential => {
     const user = userCredential.user;
-    return user.reload().then(() => {
-      if (user.emailVerified) {
-        showMessage("Login successful! Redirecting...", 'green');
+   showMessage("Login successful! Redirecting...", 'green');
+sessionStorage.setItem('loggedInThisSession', 'true');
+setTimeout(() => {
+  window.location.href = 'index.html';
+}, 1500);
 
-        // ✅ Fix: Set session storage before redirecting
-        sessionStorage.setItem('loggedInThisSession', 'true');
-
-        firebase.auth().onAuthStateChanged((user) => {
-          if (user && user.emailVerified) {
-            window.location.href = 'index.html';
-          }
-        });
-
-      } else {
-        showMessage("Please verify your email before logging in. Check your inbox.", 'red');
-        auth.signOut();
-      }
-    });
   })
 
       .catch(err => {
@@ -412,20 +399,7 @@ auth.signInWithEmailAndPassword(email, password)
       });
   });
 
-  // AUTO-DETECT EMAIL VERIFICATION AND REDIRECT TO LOGIN
-auth.onAuthStateChanged(user => {
-  if (user && !user.emailVerified) return;
-
-  if (user && user.emailVerified) {
-    showMessage("Email verified! Please log in.", "green");
-
-    setTimeout(() => {
-      auth.signOut().then(() => {
-        document.getElementById('reg-log').checked = false; // Flip to login view
-      });
-    }, 2000); // Wait 2 seconds to show message before switching
-  }
-});
+  
 
 
   // Toggle password visibility helper function
