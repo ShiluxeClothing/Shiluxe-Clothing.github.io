@@ -354,20 +354,7 @@
 }
 
 
-.logout-btn {
-  display: inline-block;
-  background-color: #e60000;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
 
-.logout-btn:hover {
-  background-color: #b30000;
-}
 /* Navbar child alignment */
 .navbar {
   display: flex;
@@ -415,18 +402,11 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="#" id="productNavLink">Products</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a id="login-link" href="Account.html">Login</a></li>
     </ul>
   </nav>
 
   <!-- 🍔 Hamburger menu -->
   <img src="images/menu.png" class="menu-icon" onclick="menutoggle()" alt="Menu Icon" />
-
-  <!-- 👤 Profile icon RIGHT NEXT TO hamburger -->
-<a href="Shiluxe-Clothing.github.io/Dashboard.html"
-id="profile-icon" style="display: none;">
-    <i class="fas fa-user-circle fa-2x" style="color: #333;"></i>
-  </a>
 </div>
 
       <div class="row">
@@ -487,94 +467,27 @@ id="profile-icon" style="display: none;">
     }
   </script>
 
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-<!-- Firebase Logout and Auth Check Script -->
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2cxa8oLeJ86rpfBB8IzWZ3WukMWI8EfM",
-    authDomain: "myloginapp-ee4bc.firebaseapp.com",
-    projectId: "myloginapp-ee4bc",
-    storageBucket: "myloginapp-ee4bc.appspot.com",
-    messagingSenderId: "934047841204",
-    appId: "1:934047841204:web:3679a51abbb6d79cf250e1"
-  };
-
-  // Initialize Firebase
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  } else {
-    firebase.app();
-  }
-
-  const auth = firebase.auth();
-
- auth.onAuthStateChanged((user) => {
-  const menu = document.getElementById("menuItems");
-  const loginLink = document.getElementById("login-link");
-  const profileIcon = document.getElementById("profile-icon");
-  const existingLogout = document.querySelector(".logout-btn");
-
-  if (user && user.emailVerified) {
-    loginLink.style.display = "none"; // Hide "Login"/"My Account"
-    profileIcon.style.display = "inline-block"; // Show profile icon
-
-    if (!existingLogout) {
-      const logoutItem = document.createElement("li");
-      const logoutLink = document.createElement("a");
-      logoutLink.href = "#";
-      logoutLink.textContent = "Logout";
-      logoutLink.classList.add("logout-btn");
-
-      logoutLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        auth.signOut().then(() => {
-          window.location.href = "Account.html";
-        });
-      });
-
-      logoutItem.appendChild(logoutLink);
-      menu.appendChild(logoutItem);
-    }
-  } else {
-    loginLink.textContent = "Login";
-    loginLink.href = "Account.html";
-    loginLink.style.display = "inline-block";
-    profileIcon.style.display = "none"; // Hide profile icon
-
-    if (existingLogout) {
-      existingLogout.parentElement.remove();
-    }
-  }
-});
-</script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const shopNowBtn = document.getElementById("shopNowBtn");
     const productNavLink = document.getElementById("productNavLink");
 
-    function handleRedirect(e) {
-      e.preventDefault();
-
-      // Make sure Firebase finishes checking the user first
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user && user.emailVerified) {
-          // ✅ Logged in and verified
-          window.location.href = "product.html";
-        } else {
-          // ❌ Not logged in
-          alert("⚠️ Please login first to view the products.");
-          window.location.href = "Account.html";
-        }
+    if (shopNowBtn) {
+      shopNowBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = "product.html"; // Update this if your product page is named differently
       });
     }
 
-    if (shopNowBtn) shopNowBtn.addEventListener("click", handleRedirect);
-    if (productNavLink) productNavLink.addEventListener("click", handleRedirect);
+    if (productNavLink) {
+      productNavLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = "product.html";
+      });
+    }
   });
 </script>
+
 
 </body>
 </html>

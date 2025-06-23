@@ -13,9 +13,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <style>
       body {
@@ -204,13 +201,6 @@
     </style>
   </head>
   <body>
-    <!-- LOGIN REDIRECT SCRIPT -->
-    <script>
-      if (!sessionStorage.getItem('loggedInThisSession')) {
-        window.location.href = 'Account.html';
-      }
-    </script>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
       <div class="container d-flex align-items-center justify-content-between">
@@ -239,15 +229,6 @@
               >0</span
             >
           </a>
-
-          <!-- Logout button -->
-          <button
-            id="logoutBtn"
-            class="btn btn-outline-danger btn-sm me-3 order-3 order-lg-2"
-            title="Logout"
-          >
-            Logout
-          </button>
 
           <!-- Navbar toggler with margin -->
           <button
@@ -327,16 +308,6 @@
 
     <!-- Product Data + Render Script -->
     <script>
-      // Firebase config & init
-      const firebaseConfig = {
-        apiKey: "AIzaSyC2cxa8oLeJ86rpfBB8IzWZ3WukMWI8EfM",
-        authDomain: "myloginapp-ee4bc.firebaseapp.com",
-        projectId: "myloginapp-ee4bc",
-        storageBucket: "myloginapp-ee4bc.appspot.com",
-        messagingSenderId: "934047841204",
-        appId: "1:934047841204:web:3679a51abbb6d79cf250e1",
-      };
-      firebase.initializeApp(firebaseConfig);
 
       // Products Array (Added description to first product example, feel free to add more)
       const products = [
