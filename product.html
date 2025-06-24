@@ -197,6 +197,58 @@
     align-items: center;
   }
 }
+.whatsapp-float-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+}
+
+.whatsapp-float {
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  animation: bounce 1.8s infinite;
+  transition: transform 0.3s;
+  display: inline-block;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-tooltip {
+  background: #25d366;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  position: absolute;
+  right: 50px;
+  bottom: 10px;
+  white-space: nowrap;
+  display: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.whatsapp-float-container:hover .whatsapp-tooltip {
+  display: block;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  60% { transform: translateY(-3px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
     </style>
   </head>
@@ -639,6 +691,12 @@ addToCartBtn.onclick = () => {
       <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
   </div>
+</div>
+<div class="whatsapp-float-container">
+  <a href="https://wa.me/2348182942107" class="whatsapp-float" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <div class="whatsapp-tooltip">Chat with us!</div>
 </div>
 
   </body>
