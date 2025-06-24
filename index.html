@@ -68,12 +68,19 @@
       font-weight: 500;
     }
 
-    .menu-icon {
-      width: 30px;
-      margin-left: 20px;
-      display: none;
-      cursor: pointer;
-    }
+.menu-icon {
+  font-size: 28px;
+  color: #000; /* or #ff523b */
+  cursor: pointer;
+  display: none; /* default hidden */
+  margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: inline-block; /* show it on mobile */
+  }
+}
 
     .cart-icon {
       width: 30px;
@@ -249,9 +256,6 @@
     display: flex;
   }
 
-  .menu-icon {
-    display: block;
-  }
 
   .col-2 {
     flex: 1 1 100%;
@@ -363,19 +367,11 @@
   justify-content: space-between;
 }
 
-.menu-icon, #profile-icon {
-  margin-left: 10px;
-}
 
 /* On small screens */
 @media (max-width: 768px) {
   .navbar {
     flex-wrap: nowrap;
-  }
-
-  .menu-icon, #profile-icon {
-    display: inline-block;
-    vertical-align: middle;
   }
 
   #profile-icon {
@@ -458,7 +454,7 @@
   </nav>
 
   <!-- 🍔 Hamburger menu -->
-  <img src="images/menu.png" class="menu-icon" onclick="menutoggle()" alt="Menu Icon" />
+ <i class="fas fa-bars menu-icon" onclick="menutoggle()"></i>
 </div>
 
       <div class="row">
