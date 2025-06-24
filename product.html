@@ -297,9 +297,20 @@
           <div class="modal-body d-flex flex-column flex-md-row gap-3">
             <img src="" alt="" id="modalProductImage" style="max-width: 300px; width: 100%; border-radius: 10px;" />
             <div>
-              <p id="modalProductPrice" class="fs-5 text-success"></p>
-              <p id="modalProductDescription">No description available.</p>
-              <button id="modalAddToCartBtn" class="btn btn-primary">Add to Cart</button>
+<p id="modalProductPrice" class="fs-5 text-success"></p>
+<p id="modalProductDescription">No description available.</p>
+
+<div class="mb-3">
+  <label for="colorSelect" class="form-label">Choose Color:</label>
+  <select id="colorSelect" class="form-select form-select-sm">
+    <option value="White">White</option>
+    <option value="Black">Black</option>
+    <option value="Brown">Brown</option>
+  </select>
+</div>
+
+<button id="modalAddToCartBtn" class="btn btn-primary">Add to Cart</button>
+
             </div>
           </div>
         </div>
@@ -390,6 +401,13 @@
   description: "Perfect fit for that luxury getaway vibe."
 },
 {
+  id: 13,
+  name: "Sweatshirt",
+  price: 25000,
+  image: "images/product24.jpg",
+  description: "Cozy and stylish sweatshirt designed for all-day comfort."
+},
+{
   id: 14,
   name: "Shiluxe Tracksuit",
   price: 60000,
@@ -430,6 +448,13 @@
   price: 15000,
   image: "images/product20.jpg",
   description: "Classy. Confident. Bougie and proud."
+},
+{
+  id: 20,
+  name: "Shiluxe Arm stribe",
+  price: 25000,
+  image: "images/product23.jpg",
+  description: "Statement arm-striped top that adds bold contrast to your everyday drip."
 },
 {
   id: 21,
@@ -539,22 +564,25 @@
         // Setup Add to Cart button inside modal
         const addToCartBtn = document.getElementById('modalAddToCartBtn');
         addToCartBtn.onclick = () => {
-          let cart = JSON.parse(localStorage.getItem("cart")) || [];
-          const existing = cart.find(item => item.id === product.id);
-          if (existing) {
-            existing.quantity += 1;
-          } else {
-            cart.push({...product, quantity: 1});
-          }
-          localStorage.setItem("cart", JSON.stringify(cart));
-          updateCartBadge();
-          showToast(`${product.name} added to cart!`);
+  const selectedColor = document.getElementById('colorSelect').value;
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existing = cart.find(item => item.id === product.id && item.color === selectedColor);
 
-          // Close modal after adding
-          const modalElement = document.getElementById('productModal');
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal.hide();
-        };
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ ...product, quantity: 1, color: selectedColor });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartBadge();
+  showToast(`${product.name} (${selectedColor}) added to cart!`);
+
+  const modalElement = document.getElementById('productModal');
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  modal.hide();
+};
+
 
         // Show modal
         const modalElement = document.getElementById('productModal');

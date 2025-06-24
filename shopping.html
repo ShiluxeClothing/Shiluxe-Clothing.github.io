@@ -229,17 +229,17 @@
           const subtotal = item.price * item.quantity;
           total += subtotal;
 
-const imageSrc = `images/product${item.id}.jpg`;
+const imageSrc = item.image || "images/placeholder.jpg"; // fallback if image missing
 
           html += `
             <tr>
               <td data-label="Product">
                 <div class="d-flex align-items-center">
                   <img src="${imageSrc}" alt="${item.name}" class="product-img me-3" />
-                  <div>
-                    <strong>${item.name}</strong>
-                    <div>
-                      <label for="size-${index}" class="form-label mb-0 small">Size:</label>
+                <strong>${item.name}</strong>
+               <div class="text-muted small">Color: ${item.color || "N/A"}</div>
+             <div>
+             <label for="size-${index}" class="form-label mb-0 small">Size:</label>
                       <select id="size-${index}" class="form-select form-select-sm" onchange="updateSize(${index}, this.value)">
                         <option value="Small" ${item.size === "Small" ? "selected" : ""}>Small</option>
                         <option value="Medium" ${item.size === "Medium" ? "selected" : ""}>Medium</option>
@@ -339,11 +339,12 @@ const imageSrc = `images/product${item.id}.jpg`;
               console.log("Paystack payment successful. Ref:", response.reference);
               const cart = JSON.parse(localStorage.getItem("cart")) || [];
               const cartSummary = cart
-                .map(
-                  (item) =>
-                    `${item.name} (x${item.quantity}, Size: ${item.size || "N/A"})`
-                )
-                .join(", ");
+  .map(
+    (item) =>
+      `${item.name} (x${item.quantity}, Size: ${item.size || "N/A"}, Color: ${item.color || "N/A"})`
+  )
+  .join(", ");
+
 
               emailjs
                 .send("service_lgjo8zv", "template_q8jcuzc", {
