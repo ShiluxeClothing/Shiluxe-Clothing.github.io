@@ -50,12 +50,25 @@
         transform: scale(1.02);
       }
 
-    .product-img {
-  height: 300px; /* adjust this as needed */
+.product-img {
+  height: 200px;      /* Reduced height */
   width: 100%;
-  object-fit: cover;
+  object-fit: cover;  /* Ensures image is still clear and fills the card */
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+}
+@media (max-width: 576px) {
+  .product-img {
+    height: 160px;
+  }
+}
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
       .cart-icon {
@@ -515,7 +528,7 @@
         productContainer.innerHTML = "";
         list.forEach((p) => {
           productContainer.innerHTML += `
-            <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+           <div class="col-6 col-md-4 col-lg-3 d-flex">
               <div class="card product-card flex-fill">
                 <img src="${p.image}" class="card-img-top product-img" alt="${p.name}" style="cursor:pointer;" onclick="showProductModal(${p.id})">
                 <div class="card-body d-flex flex-column">
