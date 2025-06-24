@@ -237,14 +237,26 @@ const imageSrc = item.image || "images/placeholder.jpg"; // fallback if image mi
                 <div class="d-flex align-items-center">
                   <img src="${imageSrc}" alt="${item.name}" class="product-img me-3" />
                 <strong>${item.name}</strong>
-               <div class="text-muted small">Color: ${item.color || "N/A"}</div>
+              <div>
+  <label for="color-${index}" class="form-label mb-0 small">Color:</label>
+  <select id="color-${index}" class="form-select form-select-sm" onchange="updateColor(${index}, this.value)">
+    <option value="White" ${item.color === "White" ? "selected" : ""}>White</option>
+    <option value="Black" ${item.color === "Black" ? "selected" : ""}>Black</option>
+    <option value="Brown" ${item.color === "Others" ? "selected" : ""}>Others</option>
+  </select>
+</div>
+
              <div>
              <label for="size-${index}" class="form-label mb-0 small">Size:</label>
                       <select id="size-${index}" class="form-select form-select-sm" onchange="updateSize(${index}, this.value)">
-                        <option value="Small" ${item.size === "Small" ? "selected" : ""}>Small</option>
-                        <option value="Medium" ${item.size === "Medium" ? "selected" : ""}>Medium</option>
-                        <option value="Large" ${item.size === "Large" ? "selected" : ""}>Large</option>
-                      </select>
+                       <option value="S" ${item.size === "S" ? "selected" : ""}>S</option>
+                       <option value="M" ${item.size === "M" ? "selected" : ""}>M</option>
+                       <option value="L" ${item.size === "L" ? "selected" : ""}>L</option>
+                        <option value="XL" ${item.size === "XL" ? "selected" : ""}>XL</option>
+                        <option value="XXL" ${item.size === "XXL" ? "selected" : ""}>XXL</option>
+                        <option value="XXXL" ${item.size === "XXXL" ? "selected" : ""}>XXXL</option>
+                  </select>
+
                     </div>
                   </div>
                 </div>
@@ -287,8 +299,12 @@ const imageSrc = item.image || "images/placeholder.jpg"; // fallback if image mi
         cart[index].size = selectedSize;
         localStorage.setItem("cart", JSON.stringify(cart));
       }
-
-      function removeItem(index) {
+      function updateColor(index, selectedColor) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart[index].color = selectedColor;
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+        function removeItem(index) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
