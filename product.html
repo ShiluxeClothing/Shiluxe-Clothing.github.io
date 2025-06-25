@@ -365,6 +365,15 @@
 <p id="modalProductPrice" class="fs-5 text-success"></p>
 <p id="modalProductDescription">No description available.</p>
 
+<!-- Option Dropdown (hidden by default) -->
+<div id="productOptionGroup" class="mb-3" style="display: none;">
+  <label for="productOptionSelect" class="form-label">Select Style</label>
+  <select id="productOptionSelect" class="form-select">
+    <option value="Armless">Armless</option>
+    <option value="With Sleeves">With Sleeves</option>
+  </select>
+</div>
+
 <button id="modalAddToCartBtn" class="btn btn-primary">Add to Cart</button>
 
             </div>
@@ -413,7 +422,7 @@
           image: "images/product5.jpg",
           description: "Exclusive collection for bold personalities."
         },
-        { id: 6, name: "Female Crop top", price: 10000, image: "images/product6.jpg", description: "Soft and stylish female crop top." },
+        { id: 6, name: "Female Crop top", price: 10000, image: "images/back3.jpg", description: "Soft and stylish female crop top." },
         {
           id: 7,
           name: "Shiluxe face cap",
@@ -605,44 +614,65 @@
         });
       });
 
-      // Show product modal with full details
-      function showProductModal(id) {
-        const product = products.find(p => p.id === id);
-        if (!product) return;
+     // Show product modal with full details
+function showProductModal(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
 
-        // Update modal content
-        document.getElementById('productModalLabel').textContent = product.name;
-        document.getElementById('modalProductImage').src = product.image;
-        document.getElementById('modalProductImage').alt = product.name;
-        document.getElementById('modalProductPrice').textContent = `Price: ₦${product.price.toLocaleString()}`;
-        document.getElementById('modalProductDescription').textContent = product.description || "No description available.";
+  // Set modal content
+  document.getElementById('productModalLabel').textContent = product.name;
+  document.getElementById('modalProductImage').src = product.image;
+  document.getElementById('modalProductImage').alt = product.name;
+  document.getElementById('modalProductPrice').textContent = `Price: ₦${product.price.toLocaleString()}`;
+  document.getElementById('modalProductDescription').textContent = product.description || "No description available.";
 
-     // Setup Add to Cart button inside modal
-const addToCartBtn = document.getElementById('modalAddToCartBtn');
-addToCartBtn.onclick = () => {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const existing = cart.find(item => item.id === product.id);
+  // Show option select only for product ID 6
+  const optionGroup = document.getElementById('productOptionGroup');
+  optionGroup.style.display = product.id === 6 ? 'block' : 'none';
 
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ ...product, quantity: 1 });
-  }
+  const addToCartBtn = document.getElementById('modalAddToCartBtn');
+  addToCartBtn.onclick = () => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartBadge();
-  showToast(`${product.name} added to cart!`);
+    // If product has options (ID 6), add variant info
+    let variant = '';
+    if (product.id === 6) {
+      const selectedOption = document.getElementById('productOptionSelect').value;
+      variant = selectedOption;
+    }
 
+    // Create unique cart entry key by name + variant
+    const cartItemId = variant ? `${product.id}-${variant}` : product.id;
+
+    const existing = cart.find(item => item.cartId === cartItemId);
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        ...product,
+        variant,
+        cartId: cartItemId,
+        quantity: 1
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+    showToast(`${product.name}${variant ? ' (' + variant + ')' : ''} added to cart!`);
+
+    // Hide modal
+    const modalElement = document.getElementById('productModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
+  };
+
+  // Show modal
   const modalElement = document.getElementById('productModal');
-  const modal = bootstrap.Modal.getInstance(modalElement);
-  modal.hide();
-};
+  const modal = new bootstrap.Modal(modalElement);
+  modal.show();
+}
 
-        // Show modal
-        const modalElement = document.getElementById('productModal');
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
     </script>
 
     <script>

@@ -246,18 +246,21 @@ const imageSrc = item.image || "images/placeholder.jpg"; // fallback if image mi
   </select>
 </div>
 
-             <div>
-             <label for="size-${index}" class="form-label mb-0 small">Size:</label>
-                      <select id="size-${index}" class="form-select form-select-sm" onchange="updateSize(${index}, this.value)">
-                       <option value="S" ${item.size === "S" ? "selected" : ""}>S</option>
-                       <option value="M" ${item.size === "M" ? "selected" : ""}>M</option>
-                       <option value="L" ${item.size === "L" ? "selected" : ""}>L</option>
-                        <option value="XL" ${item.size === "XL" ? "selected" : ""}>XL</option>
-                        <option value="XXL" ${item.size === "XXL" ? "selected" : ""}>XXL</option>
-                        <option value="XXXL" ${item.size === "XXXL" ? "selected" : ""}>XXXL</option>
-                  </select>
+${[2, 7, 8].includes(item.id) ? "" : `
+  <div>
+    <label for="size-${index}" class="form-label mb-0 small">Size:</label>
+    <select id="size-${index}" class="form-select form-select-sm" onchange="updateSize(${index}, this.value)">
+      <option value="S" ${item.size === "S" ? "selected" : ""}>S</option>
+      <option value="M" ${item.size === "M" ? "selected" : ""}>M</option>
+      <option value="L" ${item.size === "L" ? "selected" : ""}>L</option>
+      <option value="XL" ${item.size === "XL" ? "selected" : ""}>XL</option>
+      <option value="XXL" ${item.size === "XXL" ? "selected" : ""}>XXL</option>
+      <option value="XXXL" ${item.size === "XXXL" ? "selected" : ""}>XXXL</option>
+    </select>
+  </div>
+`}
 
-                    </div>
+
                   </div>
                 </div>
               </td>
@@ -354,12 +357,13 @@ const imageSrc = item.image || "images/placeholder.jpg"; // fallback if image mi
             callback: function (response) {
               console.log("Paystack payment successful. Ref:", response.reference);
               const cart = JSON.parse(localStorage.getItem("cart")) || [];
-              const cartSummary = cart
+           const cartSummary = cart
   .map(
     (item) =>
-      `${item.name} (x${item.quantity}, Size: ${item.size || "N/A"}, Color: ${item.color || "N/A"})`
+      `${item.name}${item.variant ? " - " + item.variant : ""} (x${item.quantity}, Size: ${item.size || "N/A"}, Color: ${item.color || "N/A"})`
   )
   .join(", ");
+
 
 
               emailjs
