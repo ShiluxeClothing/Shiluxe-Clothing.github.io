@@ -368,10 +368,12 @@
 <!-- Option Dropdown (hidden by default) -->
 <div id="productOptionGroup" class="mb-3" style="display: none;">
   <label for="productOptionSelect" class="form-label">Select Style</label>
-  <select id="productOptionSelect" class="form-select">
-    <option value="Armless">Armless</option>
-    <option value="With Sleeves">With Sleeves</option>
-  </select>
+ <select id="productOptionSelect" class="form-select">
+  <option value="" disabled selected>-- Choose Style --</option>
+  <option value="Armless">Armless</option>
+  <option value="With Sleeves">With Sleeves</option>
+</select>
+
 </div>
 
 <button id="modalAddToCartBtn" class="btn btn-primary">Add to Cart</button>
@@ -543,7 +545,11 @@
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title">${p.name}</h5>
                   <p class="card-text text-success">Price: ₦${p.price.toLocaleString()}</p>
-                  <a href="shopping.html" class="btn btn-sm btn-outline-primary mt-auto" data-product-id="${p.id}">Add to cart</a>
+                  ${p.id === 6 
+  ? `<button class="btn btn-sm btn-outline-primary mt-auto" onclick="showProductModal(${p.id})">Add to cart</button>`
+  : `<a href="shopping.html" class="btn btn-sm btn-outline-primary mt-auto" data-product-id="${p.id}">Add to cart</a>`
+}
+
                 </div>
               </div>
             </div>
@@ -632,40 +638,41 @@ function showProductModal(id) {
 
   const addToCartBtn = document.getElementById('modalAddToCartBtn');
   addToCartBtn.onclick = () => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // If product has options (ID 6), add variant info
-    let variant = '';
-    if (product.id === 6) {
-      const selectedOption = document.getElementById('productOptionSelect').value;
-      variant = selectedOption;
+  let variant = '';
+  if (product.id === 6) {
+    const selectElement = document.getElementById('productOptionSelect');
+    variant = selectElement.value;
+
+    if (!variant) {
+      alert("Please select a style before adding to cart.");
+      return;
     }
+  }
 
-    // Create unique cart entry key by name + variant
-    const cartItemId = variant ? `${product.id}-${variant}` : product.id;
+  const cartItemId = variant ? `${product.id}-${variant}` : product.id;
+  const existing = cart.find(item => item.cartId === cartItemId);
 
-    const existing = cart.find(item => item.cartId === cartItemId);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      ...product,
+      variant,
+      cartId: cartItemId,
+      quantity: 1
+    });
+  }
 
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      cart.push({
-        ...product,
-        variant,
-        cartId: cartItemId,
-        quantity: 1
-      });
-    }
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartBadge();
+  showToast(`${product.name}${variant ? ' (' + variant + ')' : ''} added to cart!`);
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartBadge();
-    showToast(`${product.name}${variant ? ' (' + variant + ')' : ''} added to cart!`);
-
-    // Hide modal
-    const modalElement = document.getElementById('productModal');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    modal.hide();
-  };
+  const modalElement = document.getElementById('productModal');
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  modal.hide();
+};
 
   // Show modal
   const modalElement = document.getElementById('productModal');
