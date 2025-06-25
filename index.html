@@ -8,8 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
   <style>
     * {
       margin: 0;
@@ -432,6 +430,13 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+.col-2 img#slideshow-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+
 
   </style>
 </head>
@@ -466,7 +471,7 @@
          <a href="#" id="shopNowBtn" class="btn1">Shop Now &#8594;</a>
         </div>
         <div class="col-2">
-          <img src="images/back.jpg" alt="Banner" />
+<img id="slideshow-image" src="images/back.jpg" alt="Slideshow" />
         </div>
       </div>
     </div>
@@ -486,7 +491,7 @@
       <div class="footer-col-3">
         <h3>Contact Us</h3>
         <p>Email: Lasisioluwashina19@gmail.com</p>
-        <p>>📞 Call us: 08128687153</p>
+        <p>📞 Call us: 08128687153</p>
         <p>Address: Igbogbo Bayeku Rd</p>
       </div>
   <!-- Social Media Section -->
@@ -543,6 +548,27 @@
   <div class="whatsapp-tooltip">Chat with us!</div>
 </div>
 
+<script>
+  const images = [
+    'images/back.jpg',
+    'images/back2.jpg',
+    'images/back3.jpg'
+  ];
+
+  let currentIndex = 0;
+  const slideshowImage = document.getElementById('slideshow-image');
+
+  function showNextImage() {
+    slideshowImage.src = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length;
+  }
+
+  // Call once immediately on page load to show the first image right away
+  showNextImage();
+
+  // Then keep cycling every 4 seconds
+  setInterval(showNextImage, 4000);
+</script>
 
 </body>
 </html>
