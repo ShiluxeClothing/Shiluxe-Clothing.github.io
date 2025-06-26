@@ -119,19 +119,27 @@
       <h2 class="mb-4 text-center">🛒 Your Shopping Cart</h2>
       <div id="cart-container"></div>
 
-      <div
-        class="mt-4 d-flex justify-content-between align-items-center flex-wrap"
-      >
-        <h4>Total: <span id="total-price">&#8358;0</span></h4>
-        <div class="d-flex flex-wrap">
-          <a href="product.html" class="btn btn-outline-primary me-2 mb-2"
-            >Continue Shopping</a
-          >
-          <button class="btn btn-success mb-2" id="checkout-btn">
-            Proceed to Checkout
-          </button>
-        </div>
-      </div>
+      <div class="mt-4" id="shipping-section" style="display: none;">
+  <div class="mb-3">
+    <label for="shipping-method" class="form-label">Shipping Method (Lagos Only):</label>
+    <select class="form-select" id="shipping-method">
+      <option value="0">-- Select Shipping Method --</option>
+      <option value="1000" data-days="3-5">Standard Delivery (₦1,000) — 3–5 days</option>
+      <option value="2500" data-days="1-2">Express Delivery (₦2,500) — 1–2 days</option>
+      <option value="0" data-days="0">Customer Pickup (₦0) — Same day</option>
+    </select>
+    <div id="delivery-time" class="form-text mt-1 text-success" style="display:none;"></div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center flex-wrap">
+    <h4>Total: <span id="total-price">&#8358;0</span></h4>
+    <div class="d-flex flex-wrap">
+      <a href="product.html" class="btn btn-outline-primary me-2 mb-2">Continue Shopping</a>
+      <button class="btn btn-success mb-2" id="checkout-btn">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>
+
     </div>
 
     <!-- Account Info Modal -->
@@ -198,17 +206,22 @@
       function loadCart() {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        if (cart.length === 0) {
-          cartContainer.innerHTML = `
-            <div class="empty-message">
-              <h5>Your cart is empty</h5>
-            </div>`;
-          totalPriceElement.textContent = "₦0";
-          checkoutBtn.style.display = "none";
-          return;
-        }
+if (cart.length === 0) {
+    cartContainer.innerHTML = `
+      <div class="empty-message">
+        <h5>Your cart is empty</h5>
+        <a href="product.html" class="btn btn-primary mt-3">Continue Shopping</a>
+      </div>`;
+    totalPriceElement.textContent = "₦0";
+    checkoutBtn.style.display = "none";
+    document.getElementById("shipping-section").style.display = "none";
+    return;
+  }
 
-        checkoutBtn.style.display = "inline-block";
+  // ✅ Add this line to show shipping section when there are products
+  document.getElementById("shipping-section").style.display = "block";
+
+
 
         let total = 0;
         let html = `
@@ -287,7 +300,37 @@ ${[2, 7, 8].includes(item.id) ? "" : `
         html += `</tbody></table>`;
         cartContainer.innerHTML = html;
         totalPriceElement.textContent = `₦${total.toLocaleString()}`;
+        updateTotalWithShipping(total);
+
+const shippingSelect = document.getElementById("shipping-method");
+if (shippingSelect) {
+  shippingSelect.addEventListener("change", () => {
+    updateTotalWithShipping(total);
+  });
+}
+
       }
+      function updateTotalWithShipping(cartTotal) {
+  const shippingSelect = document.getElementById("shipping-method");
+  const shipping = parseFloat(shippingSelect.value) || 0;
+  const newTotal = cartTotal + shipping;
+  totalPriceElement.textContent = `₦${newTotal.toLocaleString()}`;
+
+  // Show delivery time
+  const deliveryTime = shippingSelect.options[shippingSelect.selectedIndex].dataset.days;
+  const deliveryInfo = document.getElementById("delivery-time");
+
+  if (deliveryTime && deliveryTime !== "0") {
+    deliveryInfo.style.display = "block";
+    deliveryInfo.textContent = `Estimated delivery: ${deliveryTime} business days (Lagos only).`;
+  } else if (deliveryTime === "0") {
+    deliveryInfo.style.display = "block";
+    deliveryInfo.textContent = `Pickup available immediately at our store.`;
+  } else {
+    deliveryInfo.style.display = "none";
+  }
+}
+    
 
       function updateQuantity(index, change) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -317,24 +360,38 @@ ${[2, 7, 8].includes(item.id) ? "" : `
         localStorage.setItem("cart", JSON.stringify(cart));
         loadCart();
       }
-
-    checkoutBtn.addEventListener("click", () => {
+checkoutBtn.addEventListener("click", () => {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+  const shippingSelect = document.getElementById("shipping-method");
+  const errors = [];
+
+  // Check size and color
   const isValid = cart.every(
     (item) => item.color && (item.size || [2, 7, 8].includes(item.id))
   );
-
   if (!isValid) {
-    alert("❌ Please select size and color for all items before checkout.");
+    errors.push("✓ Select size and color for all items");
+  }
+
+  // Check shipping method
+  if (shippingSelect.value === "0") {
+    errors.push("✓ Select a shipping method");
+  }
+
+  // If there are errors, show combined alert
+  if (errors.length > 0) {
+    alert("❌ Please fix the following:\n\n" + errors.join("\n"));
     return;
   }
 
+  // If all is valid, show modal
   const accountModal = new bootstrap.Modal(
     document.getElementById("accountInfoModal")
   );
   accountModal.show();
 });
+
 
       document
         .getElementById("accountInfoForm")
@@ -381,16 +438,23 @@ ${[2, 7, 8].includes(item.id) ? "" : `
 
 
 
-              emailjs
-                .send("service_lgjo8zv", "template_q8jcuzc", {
-                  name: userData.name,
-                  email: userData.email,
-                  phone: userData.phone,
-                  address: userData.address,
-                  cart_summary: cartSummary,
-                  total: `₦${totalAmount.toLocaleString()}`,
-                  reference: response.reference,
-                })
+             // Get selected shipping method and delivery time
+const shippingSelect = document.getElementById("shipping-method");
+const shippingText = shippingSelect.options[shippingSelect.selectedIndex].text;
+const deliveryTime = shippingSelect.options[shippingSelect.selectedIndex].dataset.days;
+
+emailjs.send("service_lgjo8zv", "template_q8jcuzc", {
+  name: userData.name,
+  email: userData.email,
+  phone: userData.phone,
+  address: userData.address,
+  cart_summary: cartSummary,
+  total: `₦${totalAmount.toLocaleString()}`,
+  reference: response.reference,
+  shipping_method: shippingText,
+  delivery_time: deliveryTime ? `${deliveryTime} business days` : "N/A",
+})
+
                 .then(function (emailResponse) {
                   console.log(
                     "✅ Email sent!",
