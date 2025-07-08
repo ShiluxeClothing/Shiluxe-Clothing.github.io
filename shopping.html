@@ -120,16 +120,15 @@
       <div id="cart-container"></div>
 
       <div class="mt-4" id="shipping-section" style="display: none;">
-  <div class="mb-3">
-    <label for="shipping-method" class="form-label">Shipping Method (Lagos Only):</label>
-    <select class="form-select" id="shipping-method">
-      <option value="0">-- Select Shipping Method --</option>
-      <option value="1000" data-days="3-5">Standard Delivery (₦1,000)  3–5 days</option>
-      <option value="2500" data-days="1-2">Express Delivery (₦2,500)  1–2 days</option>
-      <option value="0" data-days="0">Customer Pickup (₦0)</option>
-    </select>
-    <div id="delivery-time" class="form-text mt-1 text-success" style="display:none;"></div>
-  </div>
+ <!-- Lagos Location Only -->
+<div class="mb-3">
+  <label for="lagos-location" class="form-label">Select Your Area in Lagos:</label>
+  <select class="form-select" id="lagos-location">
+    <option value="">-- Choose Area --</option>
+  </select>
+  <div id="delivery-time" class="form-text mt-1 text-success" style="display:none;"></div>
+</div>
+
 
   <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h4>Total: <span id="total-price">&#8358;0</span></h4>
@@ -202,6 +201,29 @@
       const totalPriceElement = document.getElementById("total-price");
       // Removed clearCartBtn reference because Clear Cart button no longer exists
       const checkoutBtn = document.getElementById("checkout-btn");
+      const lagosLocations = {
+  Island: {
+    "Victoria Island": { price: 2000, days: "3–5" },
+    "Lekki": { price: 1500, days: "3–5" },
+    "Ajah": { price: 1800, days: "3–5" },
+  },
+  Mainland: {
+    "Ikeja": { price: 1000, days: "3–5" },
+    "Surulere": { price: 1200, days: "3–5" },
+    "Yaba": { price: 1000, days: "3–5" },
+    "Agege": { price: 1100, days: "3–5" },
+    "Festac": { price: 1400, days: "3–5" },
+    "Oshodi": { price: 1000, days: "3–5" },
+    "Ogba": { price: 1200, days: "3–5" },
+    "Gbagada": { price: 1200, days: "3–5" },
+    "Badagry": { price: 2500, days: "5–7" },
+    "Epe": { price: 2500, days: "5–7" }
+  },
+  Ikorodu: {
+    "Ikorodu": { price: 1700, days: "3–5" }
+  }
+};
+
 
       function loadCart() {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -302,13 +324,6 @@ ${[2, 7, 8].includes(item.id) ? "" : `
         totalPriceElement.textContent = `₦${total.toLocaleString()}`;
         updateTotalWithShipping(total);
 
-const shippingSelect = document.getElementById("shipping-method");
-if (shippingSelect) {
-  shippingSelect.addEventListener("change", () => {
-    updateTotalWithShipping(total);
-  });
-}
-
       }
       function updateTotalWithShipping(cartTotal) {
   const shippingSelect = document.getElementById("shipping-method");
@@ -374,10 +389,10 @@ checkoutBtn.addEventListener("click", () => {
     errors.push("✓ Select size and color for all items");
   }
 
-  // Check shipping method
-  if (shippingSelect.value === "0") {
-    errors.push("✓ Select a shipping method");
-  }
+  const location = lagosLocationSelect.value;
+if (!location) {
+  errors.push("✓ Select a delivery location in Lagos");
+}
 
   // If there are errors, show combined alert
   if (errors.length > 0) {
@@ -440,8 +455,10 @@ checkoutBtn.addEventListener("click", () => {
 
              // Get selected shipping method and delivery time
 const shippingSelect = document.getElementById("shipping-method");
-const shippingText = shippingSelect.options[shippingSelect.selectedIndex].text;
-const deliveryTime = shippingSelect.options[shippingSelect.selectedIndex].dataset.days;
+const selectedLocation = lagosLocationSelect.value;
+const deliveryDetails = lagosLocations[selectedLocation];
+const shippingText = `${selectedLocation} (₦${deliveryDetails.price})`;
+const deliveryTime = deliveryDetails.days;
 
 emailjs.send("service_lgjo8zv", "template_q8jcuzc", {
   name: userData.name,
@@ -480,6 +497,61 @@ emailjs.send("service_lgjo8zv", "template_q8jcuzc", {
 
           handler.openIframe();
         });
+const lagosLocationSelect = document.getElementById("lagos-location");
+const deliveryInfo = document.getElementById("delivery-time");
+
+Object.keys(lagosLocations).forEach((category) => {
+  const optgroup = document.createElement("optgroup");
+  optgroup.label = category;
+
+  const locations = lagosLocations[category];
+  Object.keys(locations).forEach((location) => {
+    const option = document.createElement("option");
+    const { price } = locations[location];
+    option.value = location;
+    option.textContent = `${location} (₦${price.toLocaleString()})`;
+    optgroup.appendChild(option);
+  });
+
+  lagosLocationSelect.appendChild(optgroup);
+});
+
+
+// When a location is selected
+lagosLocationSelect.addEventListener("change", () => {
+  updateTotalWithShipping(getCartTotal());
+});
+
+function getCartTotal() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+}
+
+function updateTotalWithShipping(cartTotal) {
+  const selectedLocation = lagosLocationSelect.value;
+  if (!selectedLocation) {
+    totalPriceElement.textContent = `₦${cartTotal.toLocaleString()}`;
+    deliveryInfo.style.display = "none";
+    return;
+  }
+
+  // Search through grouped lagosLocations for the selected location
+  let price = 0, days = "";
+  outerLoop:
+  for (const category in lagosLocations) {
+    if (lagosLocations[category][selectedLocation]) {
+      price = lagosLocations[category][selectedLocation].price;
+      days = lagosLocations[category][selectedLocation].days;
+      break outerLoop;
+    }
+  }
+
+  const newTotal = cartTotal + price;
+  totalPriceElement.textContent = `₦${newTotal.toLocaleString()}`;
+
+  deliveryInfo.style.display = "block";
+  deliveryInfo.textContent = `Estimated delivery to ${selectedLocation}: ${days} business days`;
+}
 
       loadCart();
     </script>
