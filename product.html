@@ -8,15 +8,15 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
 
 
     <style>
       body {
-        background-color: #f8f9fa;
+        background-color: #fafafa;
       }
 
       .hero {
@@ -51,9 +51,9 @@
       }
 
 .product-img {
-  height: 200px;      /* Reduced height */
+  height: 200px;      
   width: 100%;
-  object-fit: cover;  /* Ensures image is still clear and fills the card */
+  object-fit: cover;  
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
@@ -71,27 +71,15 @@
   text-overflow: ellipsis;
 }
 
-      .cart-icon {
-        vertical-align: middle;
-      }
-
-      .cart-count-badge {
-        font-size: 0.7rem;
-        padding: 4px 6px;
-        display: none;
-      }
-
-      .mb-4 {
-        text-align: center;
-        margin: 0 auto 60px;
-        position: relative;
-        line-height: 60px;
-        color: #555;
-      }
-      .mb-4 {
-  font-weight: 700; /* Bold */
+.mb-4 {
+  text-align: center;
+  margin: 0 auto 60px;
+  position: relative;
+  line-height: 60px;
+  color: #555;
+  font-weight: 700;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  letter-spacing: 0.03em; /* subtle spacing for neatness */
+  letter-spacing: 0.03em;
 }
 
 
@@ -184,20 +172,6 @@
         font-size: 1.5rem;
       }
 
-      .logo img {
-        width: 80px;
-      }
-
-      #searchForm {
-        flex-direction: column;
-        gap: 10px;
-        width: 60%;
-      }
-
-      #searchForm input,
-      #searchForm button {
-        width: 60%;
-      }
       @media (max-width: 576px) {
   #modalProductImage {
     width: 100% !important;
@@ -264,7 +238,7 @@
 }
 @keyframes classyColorFade {
   0%, 100% {
-    color: #d4af37; /* Elegant Gold */
+    color: #d4af37; 
     transform: translateX(0);
   }
   50% {
@@ -280,83 +254,282 @@
   text-transform: uppercase;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
+/* Modal Body Flex Layout */
+.modal-body {
+  display: flex;
+  gap: 2rem; 
+  align-items: flex-start;
+  padding: 1.5rem 2rem;
+  flex-wrap: wrap; 
+}
+
+/* Product Image */
+#modalProductImage {
+  border-radius: 12px;
+  max-width: 320px;
+  width: 100%;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Modal Product Details Container */
+.modal-body > div {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Product Title */
+#productModalLabel {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+/* Product Price */
+#modalProductPrice {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #28a745; 
+  margin-bottom: 1rem;
+}
+
+/* Product Description */
+#modalProductDescription {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+#productOptionGroup {
+  max-width: 300px;
+}
+
+#productOptionSelect {
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#modalAddToCartBtn {
+  align-self: start;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 576px) {
+  .modal-body {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  #modalProductImage {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .modal-body > div {
+    min-width: 100%;
+  }
+}
+
+.main-header {
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 12px 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo img {
+  width: 130px;
+  height: auto;
+}
+
+.menu-icon {
+  display: block;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 260px;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 80px;
+  z-index: 9999;
+  transition: right 0.4s ease;
+}
+
+.nav-links.active {
+  right: 0;
+}
+
+.nav-links .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-bottom: none;
+  width: auto;
+  padding: 0;
+}
+
+.nav-links .close-btn a {
+  font-size: 32px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-links .close-btn a:hover {
+  color: #ff523b;
+}
+
+.nav-links li {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+  padding: 20px 0;
+}
+
+.nav-links li a {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: block;
+  width: 100%;
+   text-decoration: none;
+}
+
+.nav-links li a:hover {
+  color: #ff523b;
+}
+.nav-links {
+  list-style: none;
+}
+
+.cart-icon i {
+  color: #000; 
+  font-size: 24px; 
+}
+
+.cart-icon {
+  position: relative;
+  text-decoration: none;
+}
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #ff523b;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+
+/* ✅ Mobile override */
+@media (max-width: 768px) {
+  .nav-links {
+    width: 100%;
+    right: -100%;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .logo img {
+    width: 120px;
+  }
+
+  .navbar {
+    padding: 0 20px;
+    justify-content: space-between;
+  }
+}
+
+/* ✅ Hide close button on desktop 
+@media (min-width: 769px) {
+  #navOverlay li:first-child {
+    display: none;
+  }
+}
+  */
+
+
 
     </style>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
-      <div class="container d-flex align-items-center justify-content-between">
-        <!-- Logo -->
-        <div class="logo">
-          <a href="index.html"><img src="images/img1.png" alt="Logo" /></a>
-        </div>
+<!-- === HEADER START === -->
+<header class="main-header">
+  <div class="navbar container">
+    <!-- ✅ Logo on the far left -->
+    <div class="logo">
+      <a href="index.html">
+        <img src="images/img1.png" alt="Shiluxe Logo" />
+      </a>
+    </div>
 
-        <!-- Icons (Cart & Navbar Toggler) -->
-        <div class="d-flex align-items-center">
-          <!-- Cart icon -->
-          <a
-            href="shopping.html"
-            class="position-relative me-3 order-2 order-lg-1"
-          >
-            <i
-              class="fa-solid fa-cart-shopping"
-              style="color: #000000;"
-              width="30"
-              height="30"
-              class="cart-icon"
-              alt="Cart"
-            ></i>
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count-badge"
-              >0</span
-            >
-          </a>
+    <!-- ✅ Cart and Hamburger icons on the far right -->
+    <div class="nav-icons">
+      <a href="shopping.html" class="cart-icon" title="Cart">
+        <i class="fas fa-cart-shopping"></i>
+        <span id="cart-count" class="cart-count">0</span>
+      </a>
+      <i class="fas fa-bars menu-icon" onclick="toggleMenu()"></i>
+    </div>
+  </div>
 
-          <!-- Navbar toggler with margin -->
-          <button
-            class="navbar-toggler order-1 order-lg-3 ms-2"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            title="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-
-        <!-- Collapsible Nav Menu -->
-        <div
-          class="collapse navbar-collapse justify-content-between"
-          id="navbarNav"
-        >
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
-            </li>
-          </ul>
-
-          <!-- Search form -->
-          <form class="d-flex" role="search" id="searchForm">
-            <input
-              class="form-control form-control-sm me-2"
-              type="search"
-              placeholder="Search"
-              id="searchInput"
-            />
-            <button class="btn btn-outline-primary btn-sm" type="submit">
-              Search
-            </button>
-          </form>
-        </div>
-
-        <!-- User greeting -->
-        <div id="userGreeting" class="ms-3 d-none"></div>
-      </div>
-    </nav>
+  <!-- ✅ Fullscreen Mobile Menu Overlay -->
+  <nav>
+    <ul id="navOverlay" class="nav-links">
+      <li class="close-btn">
+        <a href="javascript:void(0)" onclick="toggleMenu()">&times;</a>
+      </li>
+       <li><a href="index.html">HOME</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+      <li><a href="contact.html">CONTACT</a></li>
+      <li><a href="privacy.html">PRIVACY POLICY</a></li>
+    </ul>
+  </nav>
+</header>
+<!-- === HEADER END === -->
 
     <!-- Hero -->
     <div class="hero mb-5">
@@ -380,20 +553,44 @@
           <div class="modal-body d-flex flex-column flex-md-row gap-3">
             <img src="" alt="" id="modalProductImage" style="max-width: 300px; width: 100%; border-radius: 10px;" />
             <div>
+<!-- Product Price and Description -->
 <p id="modalProductPrice" class="fs-5 text-success"></p>
 <p id="modalProductDescription">No description available.</p>
 
-<!-- Option Dropdown (hidden by default) -->
-<div id="productOptionGroup" class="mb-3" style="display: none;">
-  <label for="productOptionSelect" class="form-label">Select Style</label>
- <select id="productOptionSelect" class="form-select">
-  <option value="" disabled selected>-- Choose Style --</option>
-  <option value="Armless">Armless</option>
-  <option value="With Sleeves">With Sleeves</option>
-</select>
+<!-- Size Dropdown -->
+<div class="mb-3">
+  <label for="productSizeSelect" class="form-label">Select Size</label>
+  <select id="productSizeSelect" class="form-select">
+    <option value="" disabled selected>-- Choose Size --</option>
+  </select>
+</div>
+
+<!-- Color Dropdown -->
+<div class="mb-3">
+  <label for="productColorSelect" class="form-label">Select Color</label>
+  <select id="productColorSelect" class="form-select">
+    <option value="" disabled selected>-- Choose Color --</option>
+  </select>
+
+  <!-- Style (Only for Female Crop Top - ID 6) -->
+<div id="productStyleGroup" class="mb-3" style="display: none;">
+  <label for="productStyleSelect" class="form-label">Select Style</label>
+  <select id="productStyleSelect" class="form-select">
+    <option value="" disabled selected>-- Choose Style --</option>
+    <option value="Armless">Armless</option>
+    <option value="With Sleeves">With Sleeves</option>
+  </select>
+</div>
 
 </div>
 
+<!-- Quantity -->
+<div class="mb-3">
+  <label for="productQuantity" class="form-label">Quantity</label>
+  <input type="number" id="productQuantity" class="form-control" value="1" min="1">
+</div>
+
+<!-- Add to Cart Button -->
 <button id="modalAddToCartBtn" class="btn btn-primary">Add to Cart</button>
 
             </div>
@@ -408,145 +605,184 @@
       // Products Array (Added description to first product example, feel free to add more)
       const products = [
         {
-          id: 1,
-          name: "Shiluxe Jersey",
-          price: 25000,
-          image: "images/product1.jpg",
-          description: "High quality jersey made from breathable fabric."
-        },
-        {
-          id: 2,
-          name: "Shiluxe bucket hat",
-          price: 10000,
-          image: "images/product2.jpg",
-          description: "Stylish bucket hat perfect for sunny days."
-        },
-        {
-          id: 3,
-          name: "Shiluxe male crop top",
-          price: 25000,
-          image: "images/product3.jpg",
-          description: "Comfortable male crop top in multiple colors."
-        },
+           id: 1,
+    name: "Shiluxe Jersey",
+    price: 25000,
+    image: "images/product1.jpg",
+    description: "High quality jersey made from breathable fabric.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["White", "Black"]
+  },
+  {
+    id: 2,
+    name: "Shiluxe bucket hat",
+    price: 10000,
+    image: "images/product2.jpg",
+    description: "Stylish bucket hat perfect for sunny days.",
+    colors: ["Black", "White"]
+  },
+  {
+    id: 3,
+    name: "Shiluxe male crop top",
+    price: 25000,
+    image: "images/product3.jpg",
+    description: "Comfortable male crop top in multiple colors.",
+    sizes: ["S", "M", "L",""],
+    colors: ["White", "Black"]
+  },
         {
           id: 4,
           name: "Shiluxe splash Top",
           price: 30000,
           image: "images/product4.jpg",
-          description: "Trendy splash design top."
+          description: "Trendy splash design top.",
+             sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
+          
         },
         {
           id: 5,
           name: "Stay weird collection",
           price: 25000,
           image: "images/product5.jpg",
-          description: "Exclusive collection for bold personalities."
+          description: "Exclusive collection for bold personalities.",
+             sizes: ["S", "M", "L"],
+    colors: ["Black", "Brown",]
         },
-        { id: 6, name: "Female Crop top", price: 10000, image: "images/back3.jpg", description: "Soft and stylish female crop top." },
+        { id: 6, name: "Female Crop top", price: 10000, image: "images/back3.jpg", description: "Soft and stylish female crop top.",    sizes: ["S", "M", "L"],
+    colors: ["Blue", "White", "Purple"] },
         {
           id: 7,
           name: "Shiluxe face cap",
           price: 15000,
           image: "images/product8.jpg",
-          description: "Classic face cap with adjustable strap."
+          description: "Classic face cap with adjustable strap.",
+    colors: ["Blue", "White"]
         },
 {
   id: 8,
   name: "Shiluxe headwarmer",
   price: 10000,
   image: "images/product9.jpg",
-  description: "Warm headwarmer for cold days."
+  description: "Warm headwarmer for cold days.",
+    colors: ["Black", "White", "Purple"]
 },
 {
   id: 9,
   name: "Gyal code",
   price: 12000,
   image: "images/product10.jpg",
-  description: "Bold and fierce — for certified gyal bosses."
+  description: "Bold and fierce — for certified gyal bosses.",
+     sizes: ["S", "M", "L"],
+    colors: ["Blue", "White", "Purple"]
 },
 {
   id: 10,
   name: "Luxe layer",
   price: 10000,
   image: "images/product11.jpg",
-  description: "Soft layers that scream effortless luxury."
+  description: "Soft layers that scream effortless luxury.",
+   sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
 },
 {
   id: 11,
   name: "Core Status",
   price: 25000,
   image: "images/product12.jpg",
-  description: "Set the tone with boss energy — every time."
+  description: "Set the tone with boss energy — every time.",
+     sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
 },
 {
   id: 12,
   name: "Slaycation set",
   price: 18500,
   image: "images/product13.jpg",
-  description: "Perfect fit for that luxury getaway vibe."
+  description: "Perfect fit for that luxury getaway vibe.",
+     sizes: ["S", "M", "L"],
+    colors: ["Black & Brown", "White &  Brown"]
 },
 {
   id: 13,
   name: "Sweatshirt",
   price: 25000,
   image: "images/product24.jpg",
-  description: "Cozy and stylish sweatshirt designed for all-day comfort."
+  description: "Cozy and stylish sweatshirt designed for all-day comfort.",
+     sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
 },
 {
   id: 14,
   name: "Shiluxe Tracksuit",
   price: 60000,
   image: "images/product22.jpg",
-  description: "Where comfort meets street elegance."
+  description: "Where comfort meets street elegance.",
+     sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
 },
 {
   id: 15,
   name: "Rich flex",
   price: 10000,
   image: "images/product16.jpg",
-  description: "Minimalist drip for maximum flex appeal."
+  description: "Minimalist drip for maximum flex appeal.",
+     sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
 },
 {
   id: 16,
   name: "Skin Script",
   price: 10000,
   image: "images/product17.jpg",
-  description: "Soft tones that hug your skin with style."
+  description: "Soft tones that hug your skin with style.",
+     sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"]
 },
 {
   id: 17,
   name: "Street royalty",
   price: 15000,
   image: "images/product18.jpg",
-  description: "Rule the street scene with this edgy fit."
+  description: "Rule the street scene with this edgy fit.",
+     sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"]
 },
 {
   id: 18,
   name: "Drip District",
   price: 15000,
   image: "images/product19.jpg",
-  description: "Join the district where fashion runs deep."
+  description: "Join the district where fashion runs deep.",
+     sizes: ["S", "M", "L", "XL"],
+    colors: ["Black & White"]
 },
 {
   id: 19,
   name: "Bougie AF",
   price: 15000,
   image: "images/product20.jpg",
-  description: "Classy. Confident. Bougie and proud."
+  description: "Classy. Confident. Bougie and proud.",
+     sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Cream", "White", "Black"]
 },
 {
   id: 20,
   name: "Shiluxe Arm strip",
   price: 25000,
   image: "images/product23.jpg",
-  description: "Statement arm-striped top that adds bold contrast to your everyday drip."
+  description: "Statement arm-striped top that adds bold contrast to your everyday drip.",
+     sizes: ["S", "M", "L"],
+    colors: ["Black", "White"]
 },
 {
   id: 21,
   name: "Snatched and served",
   price: 18500,
   image: "images/product21.jpg",
-  description: "Figure-flattering and fierce — you just served."
+  description: "Figure-flattering and fierce — you just served.",
+     sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Cream", "White", "Black"]
 }
 
       ];
@@ -556,22 +792,19 @@
       function renderProducts(list) {
         productContainer.innerHTML = "";
         list.forEach((p) => {
-          productContainer.innerHTML += `
-           <div class="col-6 col-md-4 col-lg-3 d-flex">
-              <div class="card product-card flex-fill">
-                <img src="${p.image}" class="card-img-top product-img" alt="${p.name}" style="cursor:pointer;" onclick="showProductModal(${p.id})">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">${p.name}</h5>
-                  <p class="card-text text-success">Price: ₦${p.price.toLocaleString()}</p>
-                  ${p.id === 6 
-  ? `<button class="btn btn-sm btn-outline-primary mt-auto" onclick="showProductModal(${p.id})">Add to cart</button>`
-  : `<a href="shopping.html" class="btn btn-sm btn-outline-primary mt-auto" data-product-id="${p.id}">Add to cart</a>`
-}
+productContainer.innerHTML += `
+  <div class="col-6 col-md-4 col-lg-3 d-flex">
+    <div class="card product-card flex-fill">
+      <img src="${p.image}" class="card-img-top product-img" alt="${p.name}" style="cursor:pointer;" onclick="showProductModal(${p.id})">
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">${p.name}</h5>
+        <p class="card-text text-success">Price: ₦${p.price.toLocaleString()}</p>
+        <button class="btn btn-sm btn-outline-primary mt-auto" onclick="showProductModal(${p.id})">Add to cart</button>
+      </div>
+    </div>
+  </div>
+`;
 
-                </div>
-              </div>
-            </div>
-          `;
         });
       }
 
@@ -622,81 +855,89 @@
         document.getElementById("searchInput").addEventListener("input", function () {
           if (this.value.trim() === "") renderProducts(products);
         });
-
-        // Logout button click handler
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-          firebase.auth()
-            .signOut()
-            .then(() => {
-              localStorage.removeItem("loggedIn");
-              sessionStorage.removeItem("loggedInThisSession");
-              window.location.href = "Account.html";
-            })
-            .catch((error) => {
-              console.error("Logout error:", error);
-            });
-        });
       });
 
-     // Show product modal with full details
-function showProductModal(id) {
+  function showProductModal(id) {
   const product = products.find(p => p.id === id);
   if (!product) return;
 
-  // Set modal content
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Set modal data
   document.getElementById('productModalLabel').textContent = product.name;
   document.getElementById('modalProductImage').src = product.image;
   document.getElementById('modalProductImage').alt = product.name;
   document.getElementById('modalProductPrice').textContent = `Price: ₦${product.price.toLocaleString()}`;
   document.getElementById('modalProductDescription').textContent = product.description || "No description available.";
+  document.getElementById('productQuantity').value = 1;
 
-  // Show option select only for product ID 6
-  const optionGroup = document.getElementById('productOptionGroup');
-  optionGroup.style.display = product.id === 6 ? 'block' : 'none';
+  // Populate sizes
+  const sizeSelect = document.getElementById('productSizeSelect');
+  sizeSelect.innerHTML = `<option value="" disabled selected>-- Choose Size --</option>`;
+  (product.sizes || []).forEach(size => {
+    sizeSelect.innerHTML += `<option value="${size}">${size}</option>`;
+  });
 
-  const addToCartBtn = document.getElementById('modalAddToCartBtn');
-  addToCartBtn.onclick = () => {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  // Populate colors
+  const colorSelect = document.getElementById('productColorSelect');
+  colorSelect.innerHTML = `<option value="" disabled selected>-- Choose Color --</option>`;
+  (product.colors || []).forEach(color => {
+    colorSelect.innerHTML += `<option value="${color}">${color}</option>`;
+  });
+  // Style: show only for Female Crop Top (ID 6)
+const styleGroup = document.getElementById('productStyleGroup');
+const styleSelect = document.getElementById('productStyleSelect');
+if (product.id === 6) {
+  styleGroup.style.display = 'block';
+  styleSelect.value = ""; // reset selection
+} else {
+  styleGroup.style.display = 'none';
+}
 
-  let variant = '';
-  if (product.id === 6) {
-    const selectElement = document.getElementById('productOptionSelect');
-    variant = selectElement.value;
 
-    if (!variant) {
-      alert("Please select a style before adding to cart.");
-      return;
-    }
-  }
+  // Add to Cart action
+  document.getElementById('modalAddToCartBtn').onclick = () => {
+    const size = sizeSelect.value;
+    const color = colorSelect.value;
+    const quantity = parseInt(document.getElementById('productQuantity').value);
+const style = product.id === 6 ? styleSelect.value : null;
 
-  const cartItemId = variant ? `${product.id}-${variant}` : product.id;
-  const existing = cart.find(item => item.cartId === cartItemId);
+if (!size || !color || quantity < 1 || (product.id === 6 && !style)) {
+  alert("Please select size, color" + (product.id === 6 ? ", and style" : "") + ".");
+  return;
+}
 
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({
-      ...product,
-      variant,
-      cartId: cartItemId,
-      quantity: 1
-    });
-  }
+const cartId = `${product.id}-${size}-${color}-${style || ''}`;
+const existing = cart.find(item => item.cartId === cartId);
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartBadge();
-  showToast(`${product.name}${variant ? ' (' + variant + ')' : ''} added to cart!`);
+if (existing) {
+  existing.quantity += quantity;
+} else {
+  cart.push({
+    ...product,
+    size,
+    color,
+    style,
+    quantity,
+    cartId
+  });
+}
 
-  const modalElement = document.getElementById('productModal');
-  const modal = bootstrap.Modal.getInstance(modalElement);
-  modal.hide();
-};
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    showToast(`${product.name} (${size}, ${color}) added to cart!`);
+
+    const modalElement = document.getElementById('productModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
+  };
 
   // Show modal
-  const modalElement = document.getElementById('productModal');
-  const modal = new bootstrap.Modal(modalElement);
+  const modal = new bootstrap.Modal(document.getElementById('productModal'));
   modal.show();
 }
+
 
     </script>
 
@@ -766,6 +1007,24 @@ function showProductModal(id) {
   </a>
   <div class="whatsapp-tooltip">Chat with us!</div>
 </div>
+<script>
+  function toggleMenu() {
+    document.getElementById("navOverlay").classList.toggle("active");
+  }
+</script>
+
+<script>
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const countElement = document.getElementById('cart-count');
+    if (countElement) {
+      countElement.textContent = cart.length;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", updateCartCount);
+</script>
+
 
   </body>
 </html>

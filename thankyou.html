@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You - Shiluxe</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      background: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .thank-you-box {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .thank-you-box .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #111;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .thank-you-box i {
+      font-size: 60px;
+      color: #28a745;
+      margin: 20px 0;
+    }
+
+    .thank-you-box h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .thank-you-box p {
+      color: #555;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    #order-ref {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .btn-home {
+      margin-top: 25px;
+      padding: 10px 24px;
+      font-size: 16px;
+      border-radius: 50px;
+      background-color: #111;
+      color: white;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-home:hover {
+      background-color: #ff523b;
+      color: white;
+    }
+
+    @media (max-width: 576px) {
+      .thank-you-box {
+        padding: 30px 20px;
+      }
+      .thank-you-box h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="thank-you-box">
+    <div class="brand">Shiluxe</div>
+    <i class="fas fa-check-circle"></i>
+    <h2>Thank You for Your Purchase!</h2>
+    <p>Your payment was successful.</p>
+    <p id="order-ref"></p>
+    <a href="index.html" class="btn-home">Back to Home</a>
+  </div>
+
+  <script>
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref) {
+      document.getElementById("order-ref").textContent = "Order Reference: " + ref;
+    }
+  </script>
+</body>
+</html>
